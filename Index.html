@@ -1,52 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <title>LTP Calculator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Free online LTP calculator for option chain analysis and real-time market tools">
+  <title>অপশন চেইন ডাটা টেবিল</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #F2F5F8; }
-    header { background: #2C3956; color: #fff; padding: 1rem;}
-    main { padding: 2rem;}
-    .calculator { background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);}
-    label, input, button { display: block; margin-bottom: 1rem;}
-    button { background: #2C3956; color: #fff; padding: 0.7rem 1.2rem; border: none; border-radius: 3px; }
-    .result { background: #EAF1FB; margin-top: 1rem; padding: 1rem; border-radius: 5px; }
-    footer { background: #2C3956; color: #fff; text-align: center; padding: 1rem; margin-top: 2rem;}
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background: #f4f4f4; }
   </style>
 </head>
 <body>
-<header>
-  <h1>LTP Calculator</h1>
-  <p>Calculate stock/option Last Traded Price instantly</p>
-</header>
-<main>
-  <section class="calculator">
-    <h2>Option Chain LTP Calculator</h2>
-    <form id="ltpForm">
-      <label for="callLTP">Call OTM LTP:</label>
-      <input type="number" step="0.01" id="callLTP" name="callLTP" required>
-      <label for="putLTP">Put OTM LTP:</label>
-      <input type="number" step="0.01" id="putLTP" name="putLTP" required>
-      <button type="submit">Calculate Weekly Range</button>
-    </form>
-    <div class="result" id="result"></div>
-  </section>
-</main>
-<footer>
-  &copy; 2025 LTP Calculator • For education only
-</footer>
+
+<h2>অপশন চেইন টেবিল (JSON থেকে ডাটা)</h2>
+
+<table id="optionChainTable">
+  <thead>
+    <tr>
+      <th>স্ট্রাইক প্রাইস</th>
+      <th>কল ওপেন ইন্টেরেস্ট</th>
+      <th>কল LTP</th>
+      <th>পুট ওপেন ইন্টেরেস্ট</th>
+      <th>পুট LTP</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
 <script>
-document.getElementById('ltpForm').onsubmit = function(event) {
-  event.preventDefault();
-  var callLTP = parseFloat(document.getElementById('callLTP').value);
-  var putLTP = parseFloat(document.getElementById('putLTP').value);
-  var sum = callLTP + putLTP;
-  document.getElementById('result').innerHTML =
-    'OTM LTP Total: ' + sum.toFixed(2) + '<br>' +
-    'Use this value for support/resistance calculation in the option chain.';
-};
+// উদাহরণস্বরূপ JSON ডাটা
+const jsonData = [
+  { strikePrice: 18000, callOI: 2000, callLTP: 150, putOI: 1800, putLTP: 145 },
+  { strikePrice: 18100, callOI: 2200, callLTP: 140, putOI: 2000, putLTP: 130 },
+  { strikePrice: 18200, callOI: 1800, callLTP: 130, putOI: 2100, putLTP: 120 }
+];
+
+// টেবিল বডি সিলেক্ট করা
+const tbody = document.querySelector("#optionChainTable tbody");
+
+// JSON ডাটা থেকে টেবিলের সারি তৈরি করা
+jsonData.forEach(item => {
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td>${item.strikePrice}</td>
+    <td>${item.callOI}</td>
+    <td>${item.callLTP}</td>
+    <td>${item.putOI}</td>
+    <td>${item.putLTP}</td>
+  `;
+  tbody.appendChild(row);
+});
 </script>
+
 </body>
 </html>
